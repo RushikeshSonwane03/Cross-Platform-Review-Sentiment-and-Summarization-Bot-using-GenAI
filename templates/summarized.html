@@ -1,0 +1,41 @@
+{% extends 'main.html' %}
+
+{% block title %}Review Summary{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-3">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'load_csv' %}">Load CSV</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'process' %}">Process</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Summarization</li>
+  </ol>
+</nav>
+
+<form method="POST" action="{% url 'final_report' %}">
+  {% csrf_token %}
+  
+  <div class="text-center mb-4">
+    <button type="submit" class="btn btn-primary">📄 Generate Final Report</button>
+  </div>
+
+  <div class="container">
+    <h2 class="text-center text-primary mb-4">📝 AI-Generated Review Summary</h2>
+
+    {% if summary %}
+      <div class="card border-success mb-4">
+        <div class="card-header bg-success text-white fw-semibold">
+          📝 Summary of Reviews
+        </div>
+        <div class="card-body">
+          <pre style="white-space: pre-wrap;">{{ summary }}</pre>
+        </div>
+      </div>
+    {% else %}
+      <div class="alert alert-warning text-center" role="alert">
+        No summary available.
+      </div>
+    {% endif %}
+  </div>
+</form>
+{% endblock %}

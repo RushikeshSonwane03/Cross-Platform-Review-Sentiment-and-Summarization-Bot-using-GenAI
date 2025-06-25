@@ -1,0 +1,61 @@
+{% extends 'main.html' %}
+{% block title %}Data Preview{% endblock %}
+{% block content %}
+{% load static %}
+
+{% if platforms %}
+  <div class="mb-3">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Load CSV</li>
+      </ol>
+    </nav>
+
+    <form method="get" class="mb-3">
+      <label for="platformSelect" class="form-label fw-semibold">Choose a Platform:</label>
+      <select name="platform" id="platformSelect" class="form-select" onchange="this.form.submit()">
+        <option disabled selected>-- Select Platform --</option>
+        {% for platform in platforms %}
+          <option value="{{ platform }}" {% if selected_platform == platform %}selected{% endif %}>{{ platform }}</option>
+        {% endfor %}
+      </select>
+    </form>
+  </div>
+{% endif %}
+
+{% if data is not None %}
+  <form method="POST" action="{% url 'process' %}">
+    {% csrf_token %}
+    <input type="hidden" name="platform" value="{{ selected_platform }}">
+
+    <div class="text-center mb-4">
+      <button type="submit" class="btn btn-success">Start Process</button>
+    </div>
+
+    <div class="table-container">
+      <h5 class="mb-3">📊 Data for Platform: <strong>{{ selected_platform }}</strong></h5>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover table-sm">
+          <thead class="table-dark text-center">
+            <tr>
+              {% for col in data.columns %}
+                <th>{{ col }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in data.values %}
+              <tr class="text-center">
+                {% for val in row %}
+                  <td>{{ val }}</td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </form>
+{% endif %}
+{% endblock %}

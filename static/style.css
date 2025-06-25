@@ -1,0 +1,106 @@
+/* static/css/style.css */
+
+body {
+  font-family: 'Segoe UI', 'Roboto', 'Poppins', sans-serif;
+  background-color: #f8f9fa;
+  color: #212529;
+  line-height: 1.6;
+}
+
+a {
+  color: #0d6efd;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5 {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+/* Card Styling */
+.card {
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+/* Table Styling */
+table {
+  font-size: 0.95rem;
+}
+
+thead {
+  text-align: center;
+  background-color: #e9ecef;
+}
+
+.table thead th {
+  vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Buttons */
+button.btn {
+  transition: all 0.3s ease-in-out;
+}
+
+button.btn:hover {
+  transform: scale(1.03);
+}
+
+/* File input styling */
+input[type="file"] {
+  cursor: pointer;
+}
+
+/* Breadcrumb styling */
+.breadcrumb {
+  background-color: transparent;
+  padding: 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+/* Footer */
+footer {
+  margin-top: 40px;
+  padding: 1rem 0;
+  text-align: center;
+  color: #6c757d;
+  border-top: 1px solid #dee2e6;
+}
+
+/* Pre block styling (for summaries) */
+pre {
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* Scrollable table container */
+.table-container {
+  max-height: 500px;
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+/* Smooth transitions for interactive elements */
+.card, .btn, .form-control, .alert, .table {
+  transition: all 0.3s ease-in-out;
+}

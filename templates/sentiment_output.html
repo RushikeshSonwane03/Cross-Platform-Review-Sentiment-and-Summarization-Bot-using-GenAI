@@ -1,0 +1,58 @@
+{% extends 'main.html' %}
+{% block title %}Sentiment Output{% endblock %}
+
+{% block content %}
+{% load static %}
+
+{% if processed %}
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'load_csv' %}">Load CSV</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Process</li>
+    </ol>
+  </nav>
+
+  <form method="POST" action="{% url 'summerization' %}">
+    {% csrf_token %}
+
+    <div class="text-center mb-4">
+      <button type="submit" class="btn btn-primary">🧾 Summarize Reviews</button>
+    </div>
+
+    <h4 class="text-primary mb-3">🧠 Sentiment Analysis Result for Platform: <strong>{{ selected_platform }}</strong></h4>
+
+    <div class="table-responsive table-container">
+      <table class="table table-bordered table-hover table-sm">
+        <thead class="table-success text-center">
+          <tr>
+            <th>Review</th>
+            <th>Sentiment</th>
+            <th>Negative</th>
+            <th>Neutral</th>
+            <th>Positive</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in processed %}
+            <tr class="text-center">
+              <td>{{ row.0|truncatechars:100 }}</td>
+              <td>
+                <span class="badge 
+                  {% if row.1 == 'positive' %} bg-success 
+                  {% elif row.1 == 'negative' %} bg-danger 
+                  {% else %} bg-warning text-dark {% endif %}">
+                  {{ row.1|capfirst }}
+                </span>
+              </td>
+              <td>{{ row.2|floatformat:2 }}</td>
+              <td>{{ row.3|floatformat:2 }}</td>
+              <td>{{ row.4|floatformat:2 }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </form>
+{% endif %}
+{% endblock %}

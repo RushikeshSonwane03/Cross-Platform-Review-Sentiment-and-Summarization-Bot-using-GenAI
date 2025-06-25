@@ -1,0 +1,150 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}Final Report{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'load_csv' %}">Load CSV</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'process' %}">Process</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'summerization' %}">Summarization</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Final Report</li>
+    </ol>
+  </nav>
+
+  <!-- Header -->
+  <div class="text-center mb-4">
+    <h1 class="display-5 text-primary">📊 Final Report</h1>
+    <h5 class="text-muted">Platform: <strong>{{ selected_platform }}</strong></h5>
+  </div>
+
+  <!-- Sentiment Table -->
+  <div class="mb-5">
+    <h3 class="mb-3">🧠 Sentiment Analysis (Top 10 Reviews)</h3>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover align-middle">
+        <thead class="table-dark text-center">
+          <tr>
+            <th scope="col">Cleaned Review</th>
+            <th scope="col">Sentiment</th>
+            <th scope="col">Negative</th>
+            <th scope="col">Neutral</th>
+            <th scope="col">Positive</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in sentiment_table %}
+          <tr class="text-center">
+            <td>{{ row.0 }}</td>
+            <td>
+              <span class="badge 
+                {% if row.1 == 'positive' %} bg-success 
+                {% elif row.1 == 'negative' %} bg-danger 
+                {% else %} bg-warning text-dark {% endif %}">
+                {{ row.1|capfirst }}
+              </span>
+            </td>
+            <td>{{ row.2 }}</td>
+            <td>{{ row.3 }}</td>
+            <td>{{ row.4 }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Charts Section (Slider with Popup Preview) -->
+  <div class="mb-5">
+    <h3 class="mb-3">📈 Visual Insights</h3>
+    <div id="insightCarousel" class="carousel slide mx-auto" data-bs-ride="carousel" style="max-width: 600px;">
+      <div class="carousel-inner text-center">
+
+        <div class="carousel-item active">
+          <img src="{% static 'sentiment_graphs/rating_distribution.png' %}" class="d-block w-100 img-clickable"
+              style="height: 300px; object-fit: contain; cursor: pointer;" alt="Rating Distribution"
+              data-bs-toggle="modal" data-bs-target="#imagePreviewModal">
+          <div class="mt-2 fw-semibold">Sentiment Pie Chart</div>
+        </div>
+
+        <div class="carousel-item">
+          <img src="{% static 'sentiment_graphs/roberta_sentiment_by_rating_heatmap.png' %}" class="d-block w-100 img-clickable"
+              style="height: 300px; object-fit: contain; cursor: pointer;" alt="Sentiment Heatmap"
+              data-bs-toggle="modal" data-bs-target="#imagePreviewModal">
+          <div class="mt-2 fw-semibold">Ratings Distribution</div>
+        </div>
+
+        <div class="carousel-item">
+          <img src="{% static 'sentiment_graphs/roberta_sentiment_distribution.png' %}" class="d-block w-100 img-clickable"
+              style="height: 300px; object-fit: contain; cursor: pointer;" alt="Sentiment Distribution"
+              data-bs-toggle="modal" data-bs-target="#imagePreviewModal">
+          <div class="mt-2 fw-semibold">Sentiment Trend Over Time</div>
+        </div>
+
+      </div>
+
+      <!-- Carousel Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#insightCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#insightCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Image Preview Modal -->
+  <div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content bg-dark">
+        <div class="modal-header border-0">
+          <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <img id="modalImage" src="#" class="img-fluid rounded" alt="Preview Image">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const modalImage = document.getElementById('modalImage');
+      const clickableImages = document.querySelectorAll('.img-clickable');
+
+      clickableImages.forEach(img => {
+        img.addEventListener('click', function () {
+          modalImage.src = this.src;
+          modalImage.alt = this.alt;
+        });
+      });
+    });
+  </script>
+
+
+  <!-- Summary -->
+  {% if summary %}
+    <div class="card mb-4 border-success">
+      <div class="card-header bg-success text-white fw-semibold">
+        📝 Summary of Reviews
+      </div>
+      <div class="card-body">
+        <pre style="white-space: pre-wrap;">{{ summary }}</pre>
+      </div>
+    </div>
+  {% else %}
+    <div class="alert alert-warning text-center" role="alert">
+      No summary available.
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}
