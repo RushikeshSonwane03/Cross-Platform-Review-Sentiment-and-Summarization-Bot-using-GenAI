@@ -5,6 +5,13 @@ import requests
 import json
 import os
 
+from dotenv import load_dotenv
+from google.genai import types
+
+load_dotenv()
+api_key = api_key=os.getenv("GEMINI_API_KEY")
+    
+
 def create_summarization_prompt(dataframe: pd.DataFrame) -> str:
     """
     Concatenates all review_texts and constructs a Gemini summarization prompt.
@@ -39,7 +46,7 @@ def call_gemini_api(prompt_text: str) -> str:
     """
     Calls the Gemini 1.5 Flash API and returns the summary.
     """
-    api_key = "AIzaSyBqCENwIHQ-3FfRnVJq94n1bJL7VrmBquE"  # As in the notebook
+    global api_key
     api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}"
 
     payload = {
