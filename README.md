@@ -7,7 +7,7 @@ A Django-based AI web application that performs sentiment analysis and automatic
 ## 🚀 Features
 
 - 📤 **CSV Upload Interface**: Upload review datasets easily.
-- 📊 **Sentiment Analysis**: Analyzes reviews using **VADER** and **RoBERTa**.
+- 📊 **Sentiment Analysis**: Analyzes reviews using **RoBERTa**.
 - 🧠 **Summarization**: Automatically generates summaries using NLP techniques.
 - 📈 **Data Visualizations**: View sentiment distributions and heatmaps.
 - 📝 **Final Report**: Consolidated report with graphs, summary, and insights.
@@ -103,7 +103,7 @@ AIproject/
 ## 📊 How It Works
 
 1. Upload a CSV file containing reviews.
-2. The system analyzes sentiment using VADER & RoBERTa.
+2. The system analyzes sentiment using RoBERTa.
 3. It summarizes review content using a custom summarizer.
 4. Visual sentiment charts and summaries are generated.
 5. A comprehensive final report is displayed and downloadable.
@@ -127,7 +127,6 @@ review_id,product_name,platform,rating,review_text,review_date
 
 - **Python** (Django Web Framework)
 - **NLP**:
-  - VADER
   - RoBERTa
 - **Visualization**: Matplotlib, Seaborn
 - **Frontend**: HTML, CSS (Bootstrap optional)
